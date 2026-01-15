@@ -1,0 +1,18 @@
+version: "3.9"
+
+services:
+  nvim:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        DOTFILES_GIT_URL: https://github.com/wizalexander/dotfiles.git
+    image: wiz-nvim:0.11.5
+    container_name: nvim
+    stdin_open: true
+    tty: true
+    user: 1000:1000
+    working_dir: /home/dev
+    volumes:
+      - ~/:/home/dev/hostfiles
+    command: nvim
