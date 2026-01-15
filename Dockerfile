@@ -26,12 +26,16 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     pkg-config \
     ripgrep \
     fd-find \
+    fontconfig \
     fzf \
     lua5.4 \
     luarocks \
+    openssh-client \
     python3 \
     python3-pip \
     python3-venv \
+    tmux \
+    vifm \
     clang \
     && rm -rf /var/lib/apt/lists/*
 
@@ -106,6 +110,12 @@ RUN python3 -m pip install --no-cache-dir --break-system-packages \
     pyright==1.1.348 \
     pynvim==0.6.0
 
+RUN mkdir -p /usr/share/fonts/truetype/nerd-fonts && \
+    curl -Lo /tmp/FiraCode.zip https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.3/FiraCode.zip && \
+    unzip /tmp/FiraCode.zip -d /usr/share/fonts/truetype/nerd-fonts && \
+    fc-cache -fv && \
+    rm /tmp/FiraCode.zip
+
 USER dev
 
 # ------------------------------
@@ -120,6 +130,8 @@ RUN if [ -n "$DOTFILES_GIT_URL" ]; then \
       cp -r /home/dev/dotfiles/* /home/dev/ || true && \
       chown -R dev:dev /home/dev ; \
     fi
+
+RUN git clone https://github.com/asdf-vm/asdf.git /home/dev/.asdf --branch v0.15.0
 
 # ------------------------------
 # Start NeoVim by default
