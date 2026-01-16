@@ -19,5 +19,5 @@ services:
     environment:
       - DOCKER_HOST=unix:///var/run/docker.sock
     command: nvim
-  volumes:
-    dev-home:
+volumes:
+  dev-home:
