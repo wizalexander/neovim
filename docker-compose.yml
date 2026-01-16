@@ -13,8 +13,11 @@ services:
     user: 1000:1000
     working_dir: /home/dev
     volumes:
+      - dev-home:/home/dev
       - ~/:/home/dev/hostfiles
       - /var/run/docker.sock:/var/run/docker.sock:rw
     environment:
       - DOCKER_HOST=unix:///var/run/docker.sock
     command: nvim
+  volumes:
+    dev-home:

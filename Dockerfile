@@ -136,9 +136,6 @@ RUN rm -rf /home/dev/.npm && \
     tree-sitter-cli@${TREE_SITTER_CLI_VERSION} && \
     chown -R dev:dev /home/dev/.npm-global
 
-# ------------------------------
-# OpenCode CLI
-# ------------------------------
 USER root
 
 # ------------------------------
@@ -183,6 +180,18 @@ COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
 USER dev
+
+# ------------------------------
+# Install AWS CLI V2
+# ------------------------------
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
+  && unzip awscliv2.zip \
+  && sudo ./aws/install \
+  && rm -rf aws awscliv2.zip
+
+# ------------------------------
+# Install OpenCode CLI
+# ------------------------------
 RUN curl -fsSL https://opencode.ai/install | bash
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
