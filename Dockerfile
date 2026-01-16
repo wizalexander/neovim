@@ -140,7 +140,8 @@ RUN rm -rf /home/dev/.npm && \
 # OpenCode CLI
 # ------------------------------
 USER root
-RUN curl -fsSL https://opencode.ai/install | bash
+RUN curl -fsSL https://opencode.ai/install | bash && \
+    ln -sf /root/.opencode/bin/opencode /usr/local/bin/opencode
 
 # ------------------------------
 # Python provider & Pyright
