@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   nvim:
     build:
@@ -16,4 +14,7 @@ services:
     working_dir: /home/dev
     volumes:
       - ~/:/home/dev/hostfiles
+      - /var/run/docker.sock:/var/run/docker.sock:rw
+    environment:
+      - DOCKER_HOST=unix:///var/run/docker.sock
     command: nvim
