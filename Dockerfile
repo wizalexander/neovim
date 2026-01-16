@@ -140,13 +140,10 @@ RUN rm -rf /home/dev/.npm && \
 # OpenCode CLI
 # ------------------------------
 USER root
-RUN curl -fsSL https://opencode.ai/install | bash && \
-    ln -sf /root/.opencode/bin/opencode /usr/local/bin/opencode
 
 # ------------------------------
 # Python provider & Pyright
 # ------------------------------
-USER root
 
 RUN python3 -m pip install --no-cache-dir --break-system-packages \
     pyright==1.1.348 \
@@ -164,7 +161,6 @@ RUN mkdir -p /usr/share/fonts/truetype/nerd-fonts && \
 ARG DOTFILES_GIT_URL
 ENV DOTFILES_GIT_URL=${DOTFILES_GIT_URL}
 
-USER root
 RUN if [ -n "$DOTFILES_GIT_URL" ]; then \
       git clone "$DOTFILES_GIT_URL" /home/dev/dotfiles && \
       cp -r /home/dev/dotfiles/.[!.]* /home/dev/ || true && \
@@ -172,25 +168,23 @@ RUN if [ -n "$DOTFILES_GIT_URL" ]; then \
       chown -R dev:dev /home/dev ; \
     fi
 
-USER root
 RUN git clone https://github.com/asdf-vm/asdf.git /home/dev/.asdf --branch v0.15.0 && \
     chown -R dev:dev /home/dev/.asdf
 
 # ------------------------------
 # Docker socket permission fix
 # ------------------------------
-USER root
 RUN chmod 666 /var/run/docker.sock 2>/dev/null || true
-
-USER dev
 
 # ------------------------------
 # Entrypoint script for Docker socket permissions
 # ------------------------------
-USER root
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
+
 USER dev
+RUN curl -fsSL https://opencode.ai/install | bash
+
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
 # ------------------------------
