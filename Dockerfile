@@ -29,13 +29,16 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     fd-find \
     fontconfig \
     fzf \
+    iputils-ping \
     lua5.4 \
     luarocks \
     openssh-client \
+    xclip \
     python3 \
     python3-pip \
     python3-venv \
     tmux \
+    tree \
     vifm \
     clang \
     apt-transport-https ca-certificates gnupg lsb-release sudo \
